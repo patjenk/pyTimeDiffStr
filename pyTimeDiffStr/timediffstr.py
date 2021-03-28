@@ -16,13 +16,15 @@ def timediffstr(datetime_one, datetime_two):
         return "{} days ago".format(delta.days)
     elif delta.days < 60:
         return "{} weeks ago".format(int(delta.days/7))
-    elif delta.days < 500:
-        num_months = (today.year - self.date.year) * 12 + (today.month - self.date.month)
+    elif delta.days < 364:
+        num_months = (datetime_one.year - datetime_two.year) * 12 + (datetime_one.month - datetime_two.month)
         return "{} months ago".format(int(num_months))
+    elif datetime_one.day == datetime_two.day and datetime_one.month == datetime_two.month and (datetime_one.year - datetime_two.year) == 1:
+        return "1 year ago"
     else:
-        num_years = (today.year - self.date.year)
-        if today.month < self.date.month:
-            num_months = self.date.month
+        num_years = (datetime_one.year - datetime_two.year)
+        if datetime_one.month < datetime_two.month:
+            num_months = datetime_one.month
         else:
-            num_months = today.month - self.date.month
+            num_months = datetime_one.month - datetime_two.month
         return "{} years and {} months ago".format(int(num_years), int(num_months))

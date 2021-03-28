@@ -13,3 +13,11 @@ class TestTimeDiffStr(TestCase):
         datetime_one = datetime(year=2020, month=1, day=4, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=1, day=1, hour=5, minute=1)
         self.assertEqual(timediffstr(datetime_one, datetime_two), "3 days ago")
+
+    def test_one_year(self):
+        """
+        Test dates two dates that are one year apart.
+        """
+        datetime_one = datetime(year=2021, month=1, day=1, hour=5, minute=1)
+        datetime_two = datetime(year=2020, month=1, day=1, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year ago")
