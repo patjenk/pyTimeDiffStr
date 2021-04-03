@@ -22,5 +22,5 @@ $ nosetests
 ### Run a specific test
 
 ```console
-nosetests pyTimeDiffStr.tests.test_timediffstr:TestTimeDiffStr.test_1_year_2_weeks
+$ nosetests pyTimeDiffStr.tests.test_timediffstr:TestTimeDiffStr.test_1_year_2_weeks
 ```
