@@ -1,3 +1,6 @@
+from calendar import monthrange
+
+
 def timediffstr(datetime_one, datetime_two):
     """
     Return a str describing the difference between two dates (e.g. "1 year and 2 weeks ago")
@@ -17,8 +20,12 @@ def timediffstr(datetime_one, datetime_two):
     elif delta.days < 60:
         return "{} weeks ago".format(int(delta.days/7))
     elif delta.days < 364:
+        # Handle "X months and ..."
         num_months = (datetime_one.year - datetime_two.year) * 12 + (datetime_one.month - datetime_two.month)
-        num_weeks = abs(datetime_one.day - datetime_two.day) / 7
+        if datetime_one.day < datetime_two.day:
+            num_weeks = (datetime_two.day - datetime_one.day) / 7
+        else:
+            num_weeks = ((monthrange(datetime_one.year, datetime_one.month)[1]-datetime_one.day) + datetime_two.day) / 7
         if num_weeks > 1:
             if datetime_one.day < datetime_two.day:
                 num_months -= 1
