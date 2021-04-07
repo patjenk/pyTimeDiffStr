@@ -1,9 +1,13 @@
 from calendar import monthrange
+import math
 
 
 def timediffstr(datetime_one, datetime_two):
     """
     Return a str describing the difference between two dates (e.g. "1 year and 2 weeks ago")
+
+    Note: datetime_one is the later datetime and datetime_two is the earlier occuring 
+          datetime. This needs to be made more robust in the future.
     """
     delta = datetime_one - datetime_two
 
@@ -21,14 +25,29 @@ def timediffstr(datetime_one, datetime_two):
         return "{} weeks ago".format(int(delta.days/7))
     elif delta.days < 364:
         # Handle "X months and ..."
-        num_months = (datetime_one.year - datetime_two.year) * 12 + (datetime_one.month - datetime_two.month)
-        if datetime_one.day < datetime_two.day:
-            num_weeks = (datetime_two.day - datetime_one.day) / 7
+        # first, figure out months
+        if datetime_one.month < datetime_two.month:
+            num_months = datetime_one.month + (12-datetime_two.month)
         else:
-            num_weeks = ((monthrange(datetime_one.year, datetime_one.month)[1]-datetime_one.day) + datetime_two.day) / 7
-        if num_weeks > 1:
+            num_months = datetime_one.month - datetime_two.month
+
+        # second, figure out weeks
+        weeks_into_month_one = math.floor((datetime_one.day-1)/7)+1
+        weeks_into_month_two = math.floor((datetime_two.day-1)/7)+1
+
+        if weeks_into_month_one != weeks_into_month_two:
             if datetime_one.day < datetime_two.day:
                 num_months -= 1
+                weeks_until_end_of_month_two = math.ceil((monthrange(datetime_two.year, datetime_two.month)[1]-datetime_two.day) / 7)
+                num_weeks = (weeks_into_month_one-1) + weeks_until_end_of_month_two
+            else:
+                num_weeks = weeks_into_month_one - weeks_into_month_two
+        else:
+            num_weeks = 0
+
+        # third, figure out days (todo)
+
+        if num_weeks > 1:
             return "{} months and {:.0f} weeks ago".format(int(num_months), num_weeks)
         else:
             return "{} months ago".format(int(num_months))

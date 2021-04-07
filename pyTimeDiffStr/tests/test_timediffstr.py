@@ -61,3 +61,19 @@ class TestTimeDiffStr(TestCase):
         datetime_one = datetime(year=2021, month=4, day=20, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=12, day=1, hour=5, minute=1)
         self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months and 2 weeks ago")
+
+    def test_2_months_2_weeks(self):
+        """
+        Test 4/7/2021 to 1/20/2021.
+        """
+        datetime_one = datetime(year=2021, month=4, day=7, hour=5, minute=1)
+        datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months and 2 weeks ago")
+
+    def test_2_months_3_weeks(self):
+        """
+        Test 4/14/2021 to 1/20/2021.
+        """
+        datetime_one = datetime(year=2021, month=4, day=14, hour=5, minute=1)
+        datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months and 3 weeks ago")
