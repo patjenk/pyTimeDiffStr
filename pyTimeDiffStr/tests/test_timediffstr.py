@@ -6,7 +6,7 @@ from pyTimeDiffStr.timediffstr import timediffstr
 
 class TestTimeDiffStr(TestCase):
 
-    def test_three_days(self):
+    def test_3_days(self):
         """
         Test dates two dates that are three days apart.
         """
@@ -14,37 +14,29 @@ class TestTimeDiffStr(TestCase):
         datetime_two = datetime(year=2020, month=1, day=1, hour=5, minute=1)
         self.assertEqual(timediffstr(datetime_one, datetime_two), "3 days ago")
 
-    def test_one_year(self):
+    def test_2_months_2_weeks(self):
         """
-        Test dates two dates that are one year apart.
+        Test 4/7/2021 to 1/20/2021.
         """
-        datetime_one = datetime(year=2021, month=1, day=1, hour=5, minute=1)
-        datetime_two = datetime(year=2020, month=1, day=1, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year ago")
+        datetime_one = datetime(year=2021, month=4, day=7, hour=5, minute=1)
+        datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months and 2 weeks ago")
 
-    def test_8_months(self):
+    def test_2_months_3_weeks(self):
         """
-        Test 4/1/2021 to 8/6/2020.
-        """
-        datetime_one = datetime(year=2021, month=4, day=1, hour=5, minute=1)
-        datetime_two = datetime(year=2020, month=8, day=6, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "8 months ago")
-
-    def test_1_year_2_weeks(self):
-        """
-        Test 4/1/2021 to 8/6/2020.
-        """
-        datetime_one = datetime(year=2021, month=4, day=3, hour=5, minute=1)
-        datetime_two = datetime(year=2020, month=3, day=21, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year and 2 weeks ago")
-
-    def test_1_year_2_weeks_2(self):
-        """
-        Test 4/14/2021 to 4/1/2020.
+        Test 4/14/2021 to 1/20/2021.
         """
         datetime_one = datetime(year=2021, month=4, day=14, hour=5, minute=1)
-        datetime_two = datetime(year=2020, month=4, day=1, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year and 2 weeks ago")
+        datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months and 3 weeks ago")
+
+    def test_3_months_2_weeks(self):
+        """
+        Test 4/17/2021 to 1/2/2021.
+        """
+        datetime_one = datetime(year=2021, month=4, day=17, hour=5, minute=1)
+        datetime_two = datetime(year=2021, month=1, day=2, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "3 months and 2 weeks ago")
 
     def test_4_months_2_weeks(self):
         """
@@ -70,18 +62,35 @@ class TestTimeDiffStr(TestCase):
         datetime_two = datetime(year=2020, month=12, day=1, hour=5, minute=1)
         self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months and 2 weeks ago")
 
-    def test_2_months_2_weeks(self):
+    def test_8_months(self):
         """
-        Test 4/7/2021 to 1/20/2021.
+        Test 4/1/2021 to 8/6/2020.
         """
-        datetime_one = datetime(year=2021, month=4, day=7, hour=5, minute=1)
-        datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months and 2 weeks ago")
+        datetime_one = datetime(year=2021, month=4, day=1, hour=5, minute=1)
+        datetime_two = datetime(year=2020, month=8, day=6, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "8 months ago")
 
-    def test_2_months_3_weeks(self):
+    def test_1_year(self):
         """
-        Test 4/14/2021 to 1/20/2021.
+        Test dates two dates that are one year apart.
+        """
+        datetime_one = datetime(year=2021, month=1, day=1, hour=5, minute=1)
+        datetime_two = datetime(year=2020, month=1, day=1, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year ago")
+
+    def test_1_year_2_weeks(self):
+        """
+        Test 4/1/2021 to 8/6/2020.
+        """
+        datetime_one = datetime(year=2021, month=4, day=3, hour=5, minute=1)
+        datetime_two = datetime(year=2020, month=3, day=21, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year and 2 weeks ago")
+
+    def test_1_year_2_weeks_2(self):
+        """
+        Test 4/14/2021 to 4/1/2020.
         """
         datetime_one = datetime(year=2021, month=4, day=14, hour=5, minute=1)
-        datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months and 3 weeks ago")
+        datetime_two = datetime(year=2020, month=4, day=1, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year and 2 weeks ago")
+
