@@ -12,6 +12,7 @@
 ```
 
 ## Unit Tests
+Don't forget to use "ipdb.sset_trace()" when using nosetests.
 
 ### Run all tests
 

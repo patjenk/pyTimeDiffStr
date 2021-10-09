@@ -22,13 +22,17 @@ class TestTimeDiffStr(TestCase):
         datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
         self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months and 2 weeks ago")
 
-    def test_2_months_3_weeks(self):
+    def test_2_months_4_weeks(self):
         """
         Test 4/14/2021 to 1/20/2021.
+
+        This one is weird. It's the third Wednesday in January to the second
+        Wednesday in April. So its not three full months. But its four weeks
+        after the third Wednesay in March. So we say it's 4 weeks.
         """
         datetime_one = datetime(year=2021, month=4, day=14, hour=5, minute=1)
         datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months and 3 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months and 4 weeks ago")
 
     def test_3_months_2_weeks(self):
         """
@@ -62,6 +66,15 @@ class TestTimeDiffStr(TestCase):
         datetime_two = datetime(year=2020, month=12, day=1, hour=5, minute=1)
         self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months and 2 weeks ago")
 
+    def test_4_months_2_weeks_4(self):
+        """
+        Test 5/4/2021 to 1/19/2021.
+        """
+        datetime_one = datetime(year=2021, month=4, day=20, hour=5, minute=1)
+        datetime_two = datetime(year=2020, month=12, day=1, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months and 2 weeks ago")
+
+
     def test_8_months(self):
         """
         Test 4/1/2021 to 8/6/2020.
@@ -94,3 +107,10 @@ class TestTimeDiffStr(TestCase):
         datetime_two = datetime(year=2020, month=4, day=1, hour=5, minute=1)
         self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year and 2 weeks ago")
 
+    def test_11_months_1_week(self):
+        """
+        Test 10/9/2021 to 10/31/2020.
+        """
+        datetime_one = datetime(year=2021, month=10, day=9, hour=5, minute=1)
+        datetime_two = datetime(year=2020, month=10, day=31, hour=5, minute=1)
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "11 months and 3 weeks ago")

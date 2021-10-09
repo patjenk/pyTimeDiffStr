@@ -1,4 +1,5 @@
 from calendar import monthrange
+from decimal import Decimal
 import math
 
 
@@ -6,7 +7,7 @@ def timediffstr(datetime_one, datetime_two):
     """
     Return a str describing the difference between two dates (e.g. "1 year and 2 weeks ago")
 
-    Note: datetime_one is the later datetime and datetime_two is the earlier occuring 
+    Note: datetime_one is the later datetime and datetime_two is the earlier occuring
           datetime. This needs to be made more robust in the future.
     """
     delta = datetime_one - datetime_two
@@ -25,25 +26,28 @@ def timediffstr(datetime_one, datetime_two):
         return "{} weeks ago".format(int(delta.days/7))
     elif delta.days < 364:
         # Handle "X months and ..."
-        # first, figure out months
-        if datetime_one.month < datetime_two.month:
+        # first, figure out difference between months
+        if datetime_one.month <= datetime_two.month:
             num_months = datetime_one.month + (12-datetime_two.month)
         else:
             num_months = datetime_one.month - datetime_two.month
 
-        # second, figure out weeks
+        # second, figure out weeks we are into EACH month.
+        # The difference between them should tell us the week differences.
         weeks_into_month_one = math.floor((datetime_one.day-1)/7)+1
         weeks_into_month_two = math.floor((datetime_two.day-1)/7)+1
 
-        if weeks_into_month_one != weeks_into_month_two:
-            if datetime_one.day < datetime_two.day:
-                num_months -= 1
-                weeks_until_end_of_month_two = math.ceil((monthrange(datetime_two.year, datetime_two.month)[1]-datetime_two.day) / 7)
-                num_weeks = (weeks_into_month_one-1) + weeks_until_end_of_month_two
-            else:
-                num_weeks = weeks_into_month_one - weeks_into_month_two
-        else:
+        if weeks_into_month_one == weeks_into_month_two:
             num_weeks = 0
+        elif datetime_one.day < datetime_two.day:
+            # The second date (aka the later date) is further into the
+            # month than the first date (aka the earlier date).
+            num_months -= 1
+            num_weeks = round((Decimal((datetime_two.day - datetime_one.day))/Decimal(7.0)))
+            if num_weeks == 1:
+                num_weeks = 4
+        else:
+            num_weeks = weeks_into_month_one - weeks_into_month_two
 
         # third, figure out days (todo)
 
