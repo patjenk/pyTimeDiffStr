@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from unittest import TestCase
 
 from pyTimeDiffStr.timediffstr import timediffstr
@@ -20,7 +20,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=7, hour=5, minute=1)
         datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months and 2 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months, 2 weeks, and 3 days ago")
 
     def test_2_months_4_weeks(self):
         """
@@ -32,7 +32,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=14, hour=5, minute=1)
         datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months and 4 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months, 3 weeks, and 3 days ago")
 
     def test_3_months_2_weeks(self):
         """
@@ -40,7 +40,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=17, hour=5, minute=1)
         datetime_two = datetime(year=2021, month=1, day=2, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "3 months and 2 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "3 months, 2 weeks, and 1 day ago")
 
     def test_4_months_2_weeks(self):
         """
@@ -48,7 +48,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=5, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=11, day=16, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months and 2 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months, 2 weeks, and 6 days ago")
 
     def test_4_months_2_weeks_2(self):
         """
@@ -56,7 +56,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=5, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=11, day=16, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months and 2 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months, 2 weeks, and 6 days ago")
 
     def test_4_months_2_weeks_3(self):
         """
@@ -64,7 +64,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=20, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=12, day=1, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months and 2 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months, 2 weeks, and 6 days ago")
 
     def test_4_months_2_weeks_4(self):
         """
@@ -72,7 +72,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=20, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=12, day=1, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months and 2 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months, 2 weeks, and 6 days ago")
 
 
     def test_8_months(self):
@@ -81,7 +81,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=1, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=8, day=6, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "8 months ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "7 months and 4 weeks ago")
 
     def test_1_year(self):
         """
@@ -89,7 +89,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=1, day=1, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=1, day=1, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year and 1 day ago")
 
     def test_1_year_2_weeks(self):
         """
@@ -97,7 +97,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=3, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=3, day=21, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year and 2 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year, 1 week, and 6 days ago")
 
     def test_1_year_2_weeks_2(self):
         """
@@ -105,7 +105,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=14, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=4, day=1, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year and 2 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year, 1 week, and 6 days ago")
 
     def test_11_months_1_week(self):
         """
@@ -113,4 +113,15 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=10, day=9, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=10, day=31, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "11 months and 3 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "11 months, 1 week, and 6 days ago")
+
+    def test_10_year_stress(self):
+        """
+        make sure we return a str
+        """
+        datetime_one = datetime(year=2021, month=1, day=1, hour=5, minute=1)
+        datetime_two = datetime_one - timedelta(days=1)
+        for days in range (0, 365*10):
+            result = timediffstr(datetime_one, datetime_two)
+            self.assertTrue(isinstance(result, str))
+            self.assertTrue(len(result) > 5)
