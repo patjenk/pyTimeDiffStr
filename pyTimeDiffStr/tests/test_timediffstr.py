@@ -20,7 +20,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=7, hour=5, minute=1)
         datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months, 2 weeks, and 3 days ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months, 2 weeks, and 4 days ago")
 
     def test_2_months_4_weeks(self):
         """
@@ -32,7 +32,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=14, hour=5, minute=1)
         datetime_two = datetime(year=2021, month=1, day=20, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months, 3 weeks, and 3 days ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "2 months, 3 weeks, and 4 days ago")
 
     def test_3_months_2_weeks(self):
         """
@@ -64,7 +64,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=20, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=12, day=1, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months, 2 weeks, and 6 days ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months, 2 weeks, and 5 days ago")
 
     def test_4_months_2_weeks_4(self):
         """
@@ -72,7 +72,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=20, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=12, day=1, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months, 2 weeks, and 6 days ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "4 months, 2 weeks, and 5 days ago")
 
 
     def test_8_months(self):
@@ -81,7 +81,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=4, day=1, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=8, day=6, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "7 months and 4 weeks ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "7 months, 3 weeks, and 5 days ago")
 
     def test_1_year(self):
         """
@@ -89,7 +89,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=1, day=1, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=1, day=1, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year and 1 day ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "1 year ago")
 
     def test_1_year_2_weeks(self):
         """
@@ -113,7 +113,7 @@ class TestTimeDiffStr(TestCase):
         """
         datetime_one = datetime(year=2021, month=10, day=9, hour=5, minute=1)
         datetime_two = datetime(year=2020, month=10, day=31, hour=5, minute=1)
-        self.assertEqual(timediffstr(datetime_one, datetime_two), "11 months, 1 week, and 6 days ago")
+        self.assertEqual(timediffstr(datetime_one, datetime_two), "11 months, 1 week, and 2 days ago")
 
     def test_10_year_stress(self):
         """
@@ -125,3 +125,15 @@ class TestTimeDiffStr(TestCase):
             result = timediffstr(datetime_one, datetime_two)
             self.assertTrue(isinstance(result, str))
             self.assertTrue(len(result) > 5)
+            datetime_two = datetime_two - timedelta(days=1)
+
+    def test_1month_xdays(self):
+        """
+        """
+        datetime_one = datetime(year=2021, month=1, day=1, hour=5, minute=1)
+        datetime_two = datetime_one + timedelta(days=92)
+        for days in range (2, 6):
+            result = timediffstr(datetime_two, datetime_one)
+            self.assertTrue(isinstance(result, str))
+            self.assertEqual(result, "3 months and {} days ago".format(days))
+            datetime_two = datetime_two + timedelta(days=1)

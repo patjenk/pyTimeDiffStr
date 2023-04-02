@@ -1,7 +1,5 @@
-from calendar import monthrange
-from decimal import Decimal
-import math
-
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 def timediffstr(datetime_one, datetime_two):
     """
@@ -24,123 +22,31 @@ def timediffstr(datetime_one, datetime_two):
         return "{} days ago".format(delta.days)
     elif delta.days < 60:
         return "{} weeks ago".format(delta.days//7)
-    elif delta.days < 365:
-        months = (delta.days % 365) // 30
-        weeks = ((delta.days % 365) % 30) // 7
-        days = ((delta.days % 365) % 30) % 7
-        if months > 1 and weeks == 0 and days == 0:
-            return "{} months ago".format(months)
-        elif months > 1 and weeks == 0 and days == 1:
-            return "{} months and 1 day ago".format(months)
-        elif months > 1 and weeks == 0 and days > 0:
-            return "{} months and {} days ago".format(months, days)
-        elif months > 1 and weeks == 1 and days == 0:
-            return "{} months and 1 week ago".format(months)
-        elif months > 1 and weeks == 1 and days == 1:
-            return "{} months, 1 week, and 1 day ago".format(months)
-        elif months > 1 and weeks == 1 and days > 0:
-            return "{} months, 1 week, and {} days ago".format(months, days)
-        elif months > 1 and weeks > 1 and days == 0:
-            return "{} months and {} weeks ago".format(months, weeks)
-        elif months > 1 and weeks > 1 and days == 1:
-            return "{} months, {} weeks, and 1 day ago".format(months, weeks)
-        elif months > 1 and weeks > 1 and days > 0:
-            return "{} months, {} weeks, and {} days ago".format(months, weeks, days)
     else:
-        years = delta.days // 365
-        months = (delta.days % 365) // 30
-        weeks = ((delta.days % 365) % 30) // 7
-        days = ((delta.days % 365) % 30) % 7
-        if years == 1:
-            if months == 0 and weeks == 0 and days == 0:
-                return "1 year ago"
-            elif months == 0 and weeks == 0 and days == 1:
-                return "1 year and 1 day ago"
-            elif months == 0 and weeks == 0 and days > 0:
-                return "1 year and {} days ago".format(days)
-            elif months == 0 and weeks == 1 and days == 0:
-                return "1 year and 1 week ago"
-            elif months == 0 and weeks == 1 and days == 1:
-                return "1 year, 1 week, and 1 day ago"
-            elif months == 0 and weeks == 1 and days > 0:
-                return "1 year, 1 week, and {} days ago".format(days)
-            elif months == 0 and weeks > 1 and days == 0:
-                return "1 year, {} weeks, and {} days ago".format(weeks, days)
-            elif months == 1 and weeks == 0 and days == 0:
-                return "1 year and 1 month ago"
-            elif months == 1 and weeks == 0 and days == 1:
-                return "1 year, 1 month, and 1 day ago"
-            elif months == 1 and weeks == 0 and days > 0:
-                return "1 year, 1 month, and {} days ago".format(days)
-            elif months == 1 and weeks == 1 and days == 0:
-                return "1 year, 1 month, and 1 week ago"
-            elif months == 1 and weeks == 1 and days == 1:
-                return "1 year, 1 month, 1 week, and 1 day ago"
-            elif months == 1 and weeks > 1 and days > 0:
-                return "1 year, 1 month, {} weeks, and {} days ago".format(weeks, days)
-            elif months > 1 and weeks == 0 and days == 0:
-                return "1 year and {} months ago".format(months)
-            elif months > 1 and weeks == 0 and days == 1:
-                return "1 year, {} months, and 1 day ago".format(months)
-            elif months > 1 and weeks == 0 and days > 0:
-                return "1 year, {} months, and {} days ago".format(months, days)
-            elif months > 1 and weeks == 1 and days == 0:
-                return "1 year, {} months, and 1 week ago".format(months)
-            elif months > 1 and weeks == 1 and days == 1:
-                return "1 year, {} months, 1 week, and 1 day ago".format(months)
-            elif months > 1 and weeks == 1 and days > 0:
-                return "1 year, {} months, 1 week, and {} days ago".format(months, days)
-            elif months > 1 and weeks > 1 and days > 0:
-                return "1 year, {} months, {} weeks, and {} days ago".format(months, weeks, days)
-        else:
-            if months == 0 and weeks == 0 and days == 0:
-                return "{} years ago".format(years)
-            elif months == 0 and weeks == 0 and days == 1:
-                return "{} years and 1 day ago".format(years)
-            elif months == 0 and weeks == 0 and days > 0:
-                return "{} years and {} days ago".format(years, days)
-            elif months == 0 and weeks == 1 and days == 0:
-                return "{} years and 1 week ago".format(years)
-            elif months == 0 and weeks == 1 and days == 1:
-                return "{} years, 1 week, and 1 day ago".format(years)
-            elif months == 0 and weeks == 1 and days > 0:
-                return "{} years, 1 week, and {} days ago".format(years, days)
-            elif months == 0 and weeks > 1 and days == 1:
-                return "{} years, {} weeks, and 1 day ago".format(years, weeks)
-            elif months == 0 and weeks > 1 and days > 0:
-                return "{} years, {} weeks, and {} days ago".format(years, weeks, days)
-            elif months == 1 and weeks == 0 and days == 0:
-                return "{} years and 1 month ago".format(years)
-            elif months == 1 and weeks == 0 and days == 1:
-                return "{} years, 1 month, and day ago".format(years)
-            elif months == 1 and weeks == 0 and days > 0:
-                return "{} years, 1 month, and {} days ago".format(years, days)
-            elif months == 1 and weeks == 1 and days == 0:
-                return "{} years, 1 month, and 1 week ago".format(years)
-            elif months == 1 and weeks == 1 and days == 1:
-                return "{} years, 1 month, 1 week, and 1 day ago".format(years)
-            elif months == 1 and weeks == 1 and days > 0:
-                return "{} years, 1 month, 1 week, and {} days ago".format(years, days)
-            elif months == 1 and weeks > 1 and days == 1:
-                return "{} years, 1 month, {} weeks, and 1 day ago".format(years, weeks)
-            elif months == 1 and weeks > 1 and days > 0:
-                return "{} years, 1 month, {} weeks, and {} days ago".format(years, weeks, days)
-            elif months > 1 and weeks == 0 and days == 0:
-                return "{} years and {} months ago".format(years, months)
-            elif months > 1 and weeks == 0 and days == 1:
-                return "{} years, {} months, and 1 day ago".format(years, months)
-            elif months > 1 and weeks == 0 and days > 0:
-                return "{} years, {} months, and {} days ago".format(years, months, days)
-            elif months > 1 and weeks == 1 and days == 0:
-                return "{} years, {} months, and 1 week ago".format(years, months)
-            elif months > 1 and weeks == 1 and days == 1:
-                return "{} years, {} months, 1 week, and 1 day ago".format(years, months)
-            elif months > 1 and weeks == 1 and days > 0:
-                return "{} years, {} months, 1 week, and {} days ago".format(years, months, days)
-            elif months > 1 and weeks > 1 and days == 0:
-                return "{} years, {} months, and {} weeks ago".format(years, months, weeks)
-            elif months > 1 and weeks > 1 and days == 1:
-                return "{} years, {} months, {} weeks, and 1 day ago".format(years, months, weeks)
-            elif months > 1 and weeks > 1 and days > 0:
-                return "{} years, {} months, {} weeks, and {} days ago".format(years, months, weeks, days)
+        rel_delta = relativedelta(datetime_one, datetime_two)
+        result_parts = []
+        result = ""
 
+        if rel_delta.years > 0:
+            result_parts.append(f"{rel_delta.years} {'year' if rel_delta.years == 1 else 'years'}")
+        if rel_delta.months > 0:
+            result_parts.append(f"{rel_delta.months} {'month' if rel_delta.months == 1 else 'months'}")
+        if rel_delta.weeks > 0:
+            result_parts.append(f"{rel_delta.weeks} {'week' if rel_delta.weeks == 1 else 'weeks'}")
+
+        days_diff = rel_delta.days - (rel_delta.weeks * 7)
+        if days_diff > 0:
+            result_parts.append(f"{days_diff} {'day' if days_diff == 1 else 'days'}")
+
+        if len(result_parts) == 0:
+            result = ''
+        elif len(result_parts)== 1:
+            result = result_parts[0]
+        elif len(result_parts) == 2:
+            result = ' and '.join(result_parts)
+        else:
+            result = ', '.join(result_parts[:-1]) + ', and ' + result_parts[-1]
+
+        # add "ago" to the end of the string
+        result += " ago"
+        return result 
